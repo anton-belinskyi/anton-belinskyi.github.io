@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Best sellers section">
+  <title>Platter test task</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600&family=Source+Serif+Pro:wght@700;900&display=swap">
+  
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+      --font-serif: "Source Serif Pro", ui-serif, Georgia, serif;
+      --font-display: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+
+      --color-primary: #231f20;
+      --color-secondary: #5c553a;
+      --color-muted: #707070;
+      --color-contrast: #fffffa;
+      --color-sale: #5c7962;
+      --color-placeholder: #f2f2f2;
+
+      --color-star: var(--color-primary);
+      --color-star-empty: #c9c4c5;
+
+      --color-scrollbar-thumb: var(--color-primary);
+      --color-scrollbar-track: #ddd6d7;
+
+      --radius-card: 0.625rem;
+
+      --text-heading: 1.75rem;
+      --text-heading--line-height: 2.1875rem;
+      --text-heading--letter-spacing: -0.01em;
+      --text-heading-lg: 2.5rem;
+      --text-heading-lg--line-height: 3rem;
+      --text-heading-lg--letter-spacing: -0.01em;
+
+      --text-link: 0.875rem;
+      --text-link--line-height: 1.225rem;
+      --text-link--letter-spacing: 0.03em;
+
+      --text-button: 1rem;
+      --text-button--line-height: 1.375rem;
+      --text-button--letter-spacing: 0.03em;
+
+      --text-card-title: 1rem;
+      --text-card-title--line-height: 1.2rem;
+      --text-card-title--letter-spacing: 0.03em;
+      --text-card-title-lg: 1.125rem;
+      --text-card-title-lg--line-height: 1.375rem;
+      --text-card-title-lg--letter-spacing: 0.03em;
+
+      --text-rating: 0.6875rem;
+      --text-rating--line-height: 1.0625rem;
+      --text-rating-lg: 0.75rem;
+      --text-rating-lg--line-height: 1.125rem;
+
+      --text-badge: 0.5rem;
+      --text-badge--line-height: 0.625rem;
+      --text-badge--letter-spacing: 0.04em;
+      --text-badge-lg: 0.625rem;
+      --text-badge-lg--line-height: 0.75rem;
+      --text-badge-lg--letter-spacing: 0.06em;
+    }
+
+    @utility section-inset {
+      --section-inset: 1.5rem;
+      padding-inline: var(--section-inset);
+      @variant md {
+        --section-inset: clamp(1.5rem, 6.667vw, 8rem);
+      }
+    }
+
+    @utility slider-track {
+      --slides-visible: 2.4;
+      --slide-gap: 1.5rem;
+      display: flex;
+      gap: var(--slide-gap);
+      margin-inline: calc(var(--section-inset) * -1);
+      padding-inline: var(--section-inset);
+      scroll-padding-inline: var(--section-inset);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar { display: none; }
+      &[data-dragging] {
+        cursor: grabbing;
+        scroll-snap-type: none;
+        user-select: none;
+      }
+
+      @variant lg { --slides-visible: 3.2; }
+      @variant xl { --slides-visible: 4.728; }
+    }
+
+    @utility slider-slide {
+      flex-shrink: 0;
+      width: calc((100vw - var(--section-inset)) / var(--slides-visible) - var(--slide-gap));
+      scroll-snap-align: start;
+    }
+
+    @utility star-rating {
+      --star-size: 0.5625rem;
+      --star-gap: 0.125rem;
+      --star-fill: calc(var(--rating, 0) * var(--star-size) + round(down, var(--rating, 0), 1) * var(--star-gap));
+      flex-shrink: 0;
+      width: calc(var(--star-size) * 5 + var(--star-gap) * 4);
+      height: var(--star-size);
+      background: linear-gradient(to right, var(--color-star) var(--star-fill), var(--color-star-empty) var(--star-fill));
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M5.55.73a.5.5 0 0 1 .9 0l1.37 2.78 3.06.44a.5.5 0 0 1 .28.86L8.94 6.97l.52 3.05a.5.5 0 0 1-.72.53L6 9.1 3.26 10.55a.5.5 0 0 1-.72-.53l.52-3.05L.84 4.81a.5.5 0 0 1 .28-.86l3.06-.44z'/%3E%3C/svg%3E");
+      mask-size: var(--star-size) var(--star-size);
+      mask-repeat: space;
+
+      @variant md { --star-size: 0.75rem; }
+    }
+
+    @utility badge {
+      border: 1px solid var(--color-black);
+      border-radius: calc(infinity * 1px);
+      padding: 0.1875rem 0.4375rem;
+    }
+
+    @layer components {
+      product-reveal[data-collapsed] [data-slider-track] > :nth-child(n + 5) {
+        @variant max-md { display: none; }
+      }
+    }
+  </style>
+  <script src="index.js" defer></script>
+</head>
+
+<body class="bg-white font-sans text-primary antialiased">
+  <main>
+    <section class="section-inset overflow-x-clip py-9 md:pt-20 md:pb-25" aria-labelledby="best-sellers-title">
+      
+      <header class="flex items-center justify-center md:justify-between">
+        <h2 id="best-sellers-title" class="font-serif text-heading font-bold md:text-heading-lg md:font-black">Best Sellers</h2>
+        <a href="#" class="group hidden items-center gap-2 rounded-full px-8 py-4 text-link font-semibold text-secondary transition-colors focus-visible:outline-2 focus-visible:outline-secondary md:inline-flex">
+          Shop All Best Sellers
+          <svg class="size-5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M3.33 10h13.34m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </header>
+
+      <product-reveal class="mt-6 block md:mt-9" data-collapsed>
+        <product-slider class="block">
+          <ul id="best-sellers-list" class="grid grid-cols-2 gap-x-2.75 gap-y-3 md:slider-track" data-slider-track>
+            
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  
+                  <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
+                    <li class="badge bg-white text-black">Best Seller</li>
+                  </ul>
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Outside Vibes T-Shirt Sunshine</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 4.5 out of 5" data-rating="4.5"></span>
+                    <span>1,234 Reviews</span>
+                  </p>
+                  <p class="text-base font-medium text-primary">$34.95</p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  
+                  <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
+                    <li class="badge bg-white text-black">Best Seller</li>
+                    <li class="badge bg-sale text-contrast">Save 15%</li>
+                  </ul>
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Hike Bottle Forest Green</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 4.8 out of 5" data-rating="4.8"></span>
+                    <span>892 Reviews</span>
+                  </p>
+                  <p class="flex flex-wrap items-baseline gap-x-2 text-base font-medium text-primary">
+                    <span class="sr-only">Sale price</span>
+                    <span>$29.50</span>
+                    <span class="sr-only">Regular price</span>
+                    <s class="text-sm font-normal text-muted">$35.00</s>
+                  </p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  
+                  <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
+                    <li class="badge bg-white text-black">New</li>
+                  </ul>
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Rest in Nature Charcoal</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 5 out of 5" data-rating="5"></span>
+                    <span>42 Reviews</span>
+                  </p>
+                  <p class="text-base font-medium text-primary">$85.00</p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=480&h=480&fit=crop" alt="" loading="lazy">
+
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Outside Vibes Cap</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 4.3 out of 5" data-rating="4.3"></span>
+                    <span>315 Reviews</span>
+                  </p>
+                  <p class="text-base font-medium text-primary">$24.00</p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://images.unsplash.com/photo-1572635196184-84e35138cf62??w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1581235707960-23b7e8612c88?w=480&h=480&fit=crop" alt="" loading="lazy">
+
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Lorem ipsum dolor</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 4.3 out of 5" data-rating="4.3"></span>
+                    <span>315 Reviews</span>
+                  </p>
+                  <p class="text-base font-medium text-primary">$24.00</p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://plus.unsplash.com/premium_photo-1718913936342-eaafff98834b?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://plus.unsplash.com/premium_photo-1718913931807-4da5b5dd27fa?w=480&h=480&fit=crop" alt="" loading="lazy">
+
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Outside Vibes Cap</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 4.3 out of 5" data-rating="4.3"></span>
+                    <span>315 Reviews</span>
+                  </p>
+                  <p class="text-base font-medium text-primary">$24.00</p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src=https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1728487890426-e458ed07122f?w=480&h=480&fit=crop" alt="" loading="lazy">
+
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Outside Vibes Cap</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 4.3 out of 5" data-rating="4.3"></span>
+                    <span>315 Reviews</span>
+                  </p>
+                  <p class="text-base font-medium text-primary">$24.00</p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  
+                  <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
+                    <li class="badge bg-white text-black">Best Seller</li>
+                  </ul>
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Outside Vibes T-Shirt Sunshine</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 4.5 out of 5" data-rating="4.5"></span>
+                    <span>1,234 Reviews</span>
+                  </p>
+                  <p class="text-base font-medium text-primary">$34.95</p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  
+                  <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
+                    <li class="badge bg-white text-black">Best Seller</li>
+                    <li class="badge bg-sale text-contrast">Save 15%</li>
+                  </ul>
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Hike Bottle Forest Green</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 4.8 out of 5" data-rating="4.8"></span>
+                    <span>892 Reviews</span>
+                  </p>
+                  <p class="flex flex-wrap items-baseline gap-x-2 text-base font-medium text-primary">
+                    <span class="sr-only">Sale price</span>
+                    <span>$29.50</span>
+                    <span class="sr-only">Regular price</span>
+                    <s class="text-sm font-normal text-muted">$35.00</s>
+                  </p>
+                </div>
+              </article>
+            </li>
+
+            <li class="md:slider-slide">
+              <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                  <img class="size-full object-cover" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=480&h=480&fit=crop" alt="">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  
+                  <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
+                    <li class="badge bg-white text-black">New</li>
+                  </ul>
+                </a>
+                <div class="flex flex-col gap-2 px-2 md:px-3">
+                  <h3 class="font-display text-card-title text-primary uppercase md:text-card-title-lg">
+                    <a href="#" class="rounded-sm line-clamp-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Rest in Nature Charcoal</a>
+                  </h3>
+                  <p class="flex items-center gap-1 text-rating text-muted md:text-rating-lg">
+                    <span class="star-rating" role="img" aria-label="Rated 5 out of 5" data-rating="5"></span>
+                    <span>42 Reviews</span>
+                  </p>
+                  <p class="text-base font-medium text-primary">$85.00</p>
+                </div>
+              </article>
+            </li>
+          </ul>
+          
+          <div class="group/bar relative mt-10 -mb-2 hidden cursor-pointer touch-none items-center py-2 md:flex" aria-hidden="true" data-slider-bar>
+            <div class="h-1 w-full rounded-md bg-scrollbar-track"></div>
+            <div class="absolute left-0 h-1 rounded-md bg-scrollbar-thumb transition-[height] duration-200 group-hover/bar:h-1.5 group-data-active/bar:h-1.5" data-slider-thumb></div>
+          </div>
+        </product-slider>
+
+        <button type="button" class="mt-3 flex w-full items-center justify-center rounded-full bg-primary px-6 py-4 text-button font-semibold text-contrast transition-colors hover:bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:hidden" aria-expanded="false" aria-controls="best-sellers-list" data-reveal-button>
+          Show More
+        </button>
+      </product-reveal>
+    </section>
+  </main>
+</body>
+</html>
