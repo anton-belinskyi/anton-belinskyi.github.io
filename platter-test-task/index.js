@@ -3,7 +3,8 @@ const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 const easeOutCubic = (progress) => 1 - (1 - progress) ** 3;
 const VISIBLE_ON_MOBILE = 4;
-const REVEAL_DURATION = 350;
+const EXPAND_DURATION = 550;
+const COLLAPSE_DURATION = 350;
 const DECODE_TIMEOUT = 400;
 
 class ProductSlider extends HTMLElement {
@@ -269,7 +270,7 @@ class ProductReveal extends HTMLElement {
 
     this.animation?.cancel();
 
-    const duration = reducedMotionQuery.matches ? 0 : REVEAL_DURATION;
+    const duration = reducedMotionQuery.matches ? 0 : (expand ? EXPAND_DURATION : COLLAPSE_DURATION);
     const { from, to } = this.measure(expand);
 
     if (!expand) this.scrollToTop(duration);
