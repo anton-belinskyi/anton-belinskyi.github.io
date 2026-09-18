@@ -126,6 +126,10 @@
       padding: 0.1875rem 0.4375rem;
     }
 
+    [data-media] {
+      -webkit-touch-callout: none;
+    }
+
     @layer components {
       product-reveal[data-collapsed] [data-slider-track] > :nth-child(n + 5) {
         @variant max-md { display: none; }
@@ -155,9 +159,9 @@
             
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=480&h=480&fit=crop" alt="" loading="lazy">
                   
                   <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
                     <li class="badge bg-white text-black">Best Seller</li>
@@ -178,9 +182,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=480&h=480&fit=crop" alt="" loading="lazy">
                   
                   <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
                     <li class="badge bg-white text-black">Best Seller</li>
@@ -207,9 +211,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=480&h=480&fit=crop" alt="" loading="lazy">
                   
                   <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
                     <li class="badge bg-white text-black">New</li>
@@ -230,9 +234,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=480&h=480&fit=crop" alt="" loading="lazy">
 
                 </a>
                 <div class="flex flex-col gap-2 px-2 md:px-3">
@@ -250,9 +254,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1572635196184-84e35138cf62?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1581235707960-23b7e8612c88?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1581235707960-23b7e8612c88?w=480&h=480&fit=crop" alt="" loading="lazy">
 
                 </a>
                 <div class="flex flex-col gap-2 px-2 md:px-3">
@@ -270,9 +274,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://plus.unsplash.com/premium_photo-1718913936342-eaafff98834b?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://plus.unsplash.com/premium_photo-1718913931807-4da5b5dd27fa?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://plus.unsplash.com/premium_photo-1718913931807-4da5b5dd27fa?w=480&h=480&fit=crop" alt="" loading="lazy">
 
                 </a>
                 <div class="flex flex-col gap-2 px-2 md:px-3">
@@ -290,9 +294,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1728487890426-e458ed07122f?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1728487890426-e458ed07122f?w=480&h=480&fit=crop" alt="" loading="lazy">
 
                 </a>
                 <div class="flex flex-col gap-2 px-2 md:px-3">
@@ -310,9 +314,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=480&h=480&fit=crop" alt="" loading="lazy">
                   
                   <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
                     <li class="badge bg-white text-black">Best Seller</li>
@@ -333,9 +337,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=480&h=480&fit=crop" alt="" loading="lazy">
                   
                   <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
                     <li class="badge bg-white text-black">Best Seller</li>
@@ -362,9 +366,9 @@
 
             <li class="relative md:slider-slide">
               <article class="flex flex-col gap-3 pb-2 md:gap-4 md:pb-4">
-                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1">
+                <a href="#" class="group/media relative block aspect-square overflow-hidden rounded-card bg-placeholder" aria-hidden="true" tabindex="-1" data-media>
                   <img class="size-full object-cover" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=480&h=480&fit=crop" alt="">
-                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100" src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=480&h=480&fit=crop" alt="" loading="lazy">
+                  <img class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover/media:opacity-100 group-data-media-active/media:opacity-100" src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=480&h=480&fit=crop" alt="" loading="lazy">
                   
                   <ul class="absolute inset-x-1 top-1 flex justify-between font-display text-badge uppercase md:top-2 md:right-6.75 md:left-2 md:text-badge-lg">
                     <li class="badge bg-white text-black">New</li>
