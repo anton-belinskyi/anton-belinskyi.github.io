@@ -2,6 +2,9 @@ const desktopQuery = window.matchMedia('(min-width: 48rem)');
 const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 const easeOutCubic = (progress) => 1 - (1 - progress) ** 3;
+const VISIBLE_ON_MOBILE = 4;
+const REVEAL_DURATION = 350;
+const DECODE_TIMEOUT = 400;
 
 class ProductSlider extends HTMLElement {
   connectedCallback() {
@@ -165,37 +168,118 @@ class ProductReveal extends HTMLElement {
   connectedCallback() {
     this.list = this.querySelector('[data-slider-track]');
     this.button = this.querySelector('[data-reveal-button]');
+    if (!this.button) return;
+
     this.button.addEventListener('click', () => this.toggle());
+    this.button.addEventListener('pointerdown', () => this.prepareImages(), { once: true });
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+
+        this.observer.disconnect();
+        this.prepareImages();
+      },
+      { rootMargin: '200px' },
+    );
+    this.observer.observe(this.button);
+  }
+
+  disconnectedCallback() {
+    this.observer?.disconnect();
+    cancelAnimationFrame(this.scrollFrame);
   }
 
   get expanded() {
     return this.button.getAttribute('aria-expanded') === 'true';
   }
 
-  collapsedHeight() {
-    const firstHidden = this.list.children[4];
-    if (!firstHidden) return this.list.offsetHeight;
+  get hiddenItems() {
+    return [...this.list.children].slice(VISIBLE_ON_MOBILE);
+  }
 
+  prepareImages() {
+    if (!this.imagesReady) {
+      const pending = this.hiddenItems
+        .flatMap((item) => [...item.querySelectorAll('img')])
+        .filter((image) => !image.complete);
+
+      pending.forEach((image) => image.setAttribute('loading', 'eager'));
+      this.imagesReady = Promise.allSettled(pending.map((image) => image.decode()));
+    }
+
+    return Promise.race([this.imagesReady, new Promise((resolve) => setTimeout(resolve, DECODE_TIMEOUT))]);
+  }
+
+  scrollTarget() {
+    const section = this.closest('section') || this;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const top = section.getBoundingClientRect().top + window.scrollY;
+
+    return clamp(top, 0, Math.max(maxScroll, 0));
+  }
+
+  scrollToTop(duration) {
+    const section = this.closest('section') || this;
+    if (section.getBoundingClientRect().top >= 0) return;
+
+    if (!duration) {
+      window.scrollTo(0, this.scrollTarget());
+      return;
+    }
+
+    const from = window.scrollY;
+    const start = performance.now();
+
+    const step = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+
+      window.scrollTo(0, from + (this.scrollTarget() - from) * easeOutCubic(progress));
+      if (progress < 1) this.scrollFrame = requestAnimationFrame(step);
+    };
+
+    cancelAnimationFrame(this.scrollFrame);
+    this.scrollFrame = requestAnimationFrame(step);
+  }
+
+  measure(expand) {
+    const from = this.list.getBoundingClientRect().height;
+    this.list.style.height = '';
+    this.removeAttribute('data-collapsed');
+
+    const fullHeight = this.list.getBoundingClientRect().height;
+    const firstHidden = this.hiddenItems[0];
     const rowGap = parseFloat(getComputedStyle(this.list).rowGap) || 0;
-    return firstHidden.getBoundingClientRect().top - this.list.getBoundingClientRect().top - rowGap;
+    const collapsedHeight = firstHidden
+      ? firstHidden.getBoundingClientRect().top - this.list.getBoundingClientRect().top - rowGap
+      : fullHeight;
+
+    return { from, to: expand ? fullHeight : collapsedHeight };
   }
 
   async toggle() {
     const expand = !this.expanded;
-    const from = this.list.getBoundingClientRect().height;
-
-    this.animation?.cancel();
-    this.removeAttribute('data-collapsed');
-
-    const to = expand ? this.list.offsetHeight : this.collapsedHeight();
 
     this.button.setAttribute('aria-expanded', String(expand));
     this.button.textContent = expand ? 'Show Less' : 'Show More';
-    this.list.style.overflow = 'hidden';
+
+    this.pending = expand;
+    if (expand) await this.prepareImages();
+    if (this.pending !== expand) return;
+
+    this.animation?.cancel();
+
+    const duration = reducedMotionQuery.matches ? 0 : REVEAL_DURATION;
+    const { from, to } = this.measure(expand);
+
+    if (!expand) this.scrollToTop(duration);
+
+    this.list.style.overflow = 'clip';
+    this.list.style.contain = 'layout paint';
 
     this.animation = this.list.animate(
       { height: [`${from}px`, `${to}px`] },
-      { duration: reducedMotionQuery.matches ? 0 : 450, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' },
+      { duration, easing: 'cubic-bezier(0.33, 1, 0.68, 1)' },
     );
 
     try {
@@ -205,6 +289,7 @@ class ProductReveal extends HTMLElement {
     }
 
     this.list.style.removeProperty('overflow');
+    this.list.style.removeProperty('contain');
     this.toggleAttribute('data-collapsed', !expand);
   }
 }
